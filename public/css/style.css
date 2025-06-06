@@ -1,0 +1,265 @@
+/* 全局樣式 */
+:root {
+    --primary-color: #FF9966;
+    --secondary-color: #FFB366;
+    --text-color: #2C1810;
+    --background-color: #FFF5E6;
+    --card-bg: #FFFFFF;
+    --button-color: #E65C00;
+    --button-hover: #FF8533;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: 'Comic Sans MS', '微軟正黑體', '圓體', sans-serif;
+    color: #2c3e50; /* 深色文字 */
+    font-weight: bold;
+    line-height: 1.4;
+    font-size: 1rem;
+    /* 使用暖色系漸層背景 */
+    background: linear-gradient(135deg, #8CABD9 0%, #F6A7B8 100%);
+    min-height: 100vh;
+}
+
+/* 導航欄樣式 */
+.navbar {
+    background-color: #F6A7B8;
+    box-shadow: 0 2px 4px #F1EC7A;
+    padding: 0.75rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    color: rgb(27, 27, 27) !important;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-brand i {
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+/* 卡片樣式 */
+.card {
+    background: #ffccd7;
+    border: none;
+    box-shadow: 0 4px 6px #ffb984;
+    transition: transform 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: #ffc170;
+    color: rgb(255, 227, 155);
+    border-bottom: none;
+    font-weight: bold;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    line-height: 1.2;
+}
+
+.card-header i {
+    font-size: 1.25rem;
+    color: var(--text-color);
+}
+
+.card-title {
+    margin: 0;
+    font-weight: bold;
+    color: var(--text-color);
+    font-size: 1.25rem;
+}
+
+.card-body {
+    padding: 1.25rem;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+/* 按鈕樣式 - 根據功能分類 */
+.btn-primary {
+    background-color: #e88849; /* 主要操作按鈕 */
+    border-color: #e88849;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #e88849;
+    border-color: #e88849;
+    color: white;
+}
+
+.btn-success {
+    background-color: #52cd86; /* 成功/確認按鈕 */
+    border-color: #52cd86;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #219a52;
+    border-color: #219a52;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #e74c3c; /* 刪除/取消按鈕 */
+    border-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+    color: white;
+}
+
+/* 表單元素樣式 */
+.form-control, .form-select {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(253, 101, 133, 0.3);
+    color: #2c3e50;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #fd6585;
+    box-shadow: 0 0 0 0.2rem rgba(253, 101, 133, 0.25);
+}
+
+.form-label {
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+/* 實驗步驟樣式 */
+.step-item {
+    background: var(--card-bg);
+    border-left: 4px solid var(--button-color);
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.step-number {
+    font-weight: bold;
+    color: var(--button-color);
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.step-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* 問答歷史記錄樣式 */
+#qaHistory {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.qa-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.question {
+    background-color: rgba(255, 153, 102, 0.1);
+}
+
+.answer {
+    background-color: rgba(255, 179, 102, 0.1);
+    margin-left: 20px;
+}
+
+/* 通知樣式 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    background: var(--card-bg);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-left: 4px solid var(--button-color);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.notification.success {
+    border-left-color: #4CAF50;
+}
+
+.notification.error {
+    border-left-color: #FF6B6B;
+}
+
+/* 動畫效果 */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+}
+
+/* 實驗步驟樣式 */
+#experimentSteps {
+    color: #2c3e50;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+/* 提問區樣式 */
+#questionInput {
+    color: #2c3e50;
+    background-color: rgba(255, 255, 255, 0.9);
+} 

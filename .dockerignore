@@ -1,0 +1,26 @@
+# 版本控制
+.git
+.gitignore
+
+# 依賴目錄
+node_modules
+npm-debug.log
+
+# 環境變數
+.env
+
+# 上傳的文件
+uploads/*
+!uploads/.gitkeep
+
+# 數據文件
+data/*
+!data/.gitkeep
+
+# 字體文件
+fonts/*
+!fonts/.gitkeep
+
+# 其他
+.DS_Store
+*.log 

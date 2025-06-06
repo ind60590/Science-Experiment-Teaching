@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教師管理介面 - 科學實驗小幫手</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Remix Icon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body class="teacher-page">
+    <!-- 導航欄 -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="ri-flask-line"></i>
+                科學實驗小幫手
+            </a>
+            <button class="btn btn-light" onclick="window.location.href='/'">
+                <i class="ri-home-line"></i>
+                返回首頁
+            </button>
+        </div>
+    </nav>
+
+    <!-- 登入表單 -->
+    <div id="loginForm" class="container mt-5">
+        <div class="login-form">
+            <div class="text-center mb-4">
+                <i class="ri-user-settings-line" style="font-size: 3rem; color: var(--accent-color);"></i>
+                <h2 class="mt-3">教師登入</h2>
+            </div>
+            <form id="teacherLoginForm">
+                <div class="mb-3">
+                    <label for="password" class="form-label">密碼</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="ri-login-box-line"></i>
+                    登入
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 教師介面 -->
+    <div id="teacherInterface" class="container mt-4" style="display: none;">
+        <div class="row">
+            <!-- 新增實驗 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="ri-add-circle-line"></i>
+                        <h5 class="card-title">新增實驗</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="newExperimentForm">
+                            <div class="mb-3">
+                                <label for="experimentName" class="form-label">實驗名稱</label>
+                                <input type="text" class="form-control" id="experimentName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="experimentMaterials" class="form-label">實驗材料</label>
+                                <input type="text" class="form-control" id="experimentMaterials" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">實驗步驟</label>
+                                <div id="stepsContainer"></div>
+                                <button type="button" class="btn btn-primary mt-2" onclick="addStep()">
+                                    <i class="ri-add-line"></i>
+                                    新增步驟
+                                </button>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="ri-save-line"></i>
+                                儲存實驗
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 影片上傳 -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <i class="ri-upload-cloud-line"></i>
+                        <h5 class="card-title">上傳實驗影片</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadForm">
+                            <div class="mb-3">
+                                <label for="videoFile" class="form-label">選擇影片檔案</label>
+                                <input type="file" class="form-control" id="videoFile" accept="video/*" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="ri-upload-cloud-line"></i>
+                                上傳
+                            </button>
+                        </form>
+                        <!-- AI 生成內容顯示區域 -->
+                        <div class="mt-3" id="aiGeneratedContent" style="display: none;">
+                            <h6>影片逐字稿：</h6>
+                            <div class="border rounded p-3 bg-light mb-3">
+                                <pre id="transcript" style="white-space: pre-wrap;"></pre>
+                            </div>
+                            <h6>AI 分析結果：</h6>
+                            <div class="border rounded p-3 bg-light">
+                                <div id="aiContent"></div>
+                            </div>
+                            <button type="button" class="btn btn-primary mt-3" onclick="applyAiContent()">
+                                <i class="ri-check-line"></i>
+                                套用 AI 生成內容
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 實驗列表 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="ri-list-check"></i>
+                        <h5 class="card-title">實驗列表</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group" id="experimentList">
+                            <!-- 實驗列表將在這裡動態生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="/js/teacher.js"></script>
+    <script>
+    // 顯示實驗列表
+    function displayExperiments(experiments) {
+        const list = document.getElementById('experimentList');
+        list.innerHTML = '';
+        experiments.forEach((experiment, index) => {
+            const item = document.createElement('div');
+            item.className = 'list-group-item d-flex justify-content-between align-items-center';
+            item.innerHTML = `
+                <div>
+                    <span class="badge bg-primary me-2">${index + 1}</span>
+                    ${experiment.name}
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-primary me-2" onclick="editExperiment('${experiment.id}')">
+                        <i class="ri-edit-line"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteExperiment('${experiment.id}')">
+                        <i class="ri-delete-bin-line"></i>
+                    </button>
+                </div>
+            `;
+            list.appendChild(item);
+        });
+    }
+
+    // 處理影片上傳
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        const fileInput = document.getElementById('videoFile');
+        formData.append('video', fileInput.files[0]);
+
+        try {
+            const response = await fetch('/api/upload-video', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                // 顯示 AI 生成內容
+                const aiContent = document.getElementById('aiContent');
+                const aiGeneratedContent = document.getElementById('aiGeneratedContent');
+                aiContent.textContent = JSON.stringify(data.experiment, null, 2);
+                aiGeneratedContent.style.display = 'block';
+                
+                // 重新載入實驗列表
+                loadExperiments();
+            } else {
+                alert('上傳失敗：' + data.message);
+            }
+        } catch (error) {
+            console.error('上傳失敗:', error);
+            alert('上傳失敗，請稍後再試');
+        }
+    });
+    </script>
+</body>
+</html>
