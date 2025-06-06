@@ -1,16 +1,20 @@
 # 使用 Node.js 官方映像作為基礎
 FROM node:18-slim
 
-# 安裝系統依賴
+# 安裝系統依賴與 python3-venv
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     python3 \
     python3-pip \
+    python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-# 安裝 Python 依賴
-RUN pip3 install --no-cache-dir \
-    openai-whisper
+# 建立 Python 虛擬環境
+RUN python3 -m venv /opt/venv
+
+# 啟用虛擬環境並安裝 Whisper
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --upgrade pip && pip install --no-cache-dir openai-whisper
 
 # 設置工作目錄
 WORKDIR /app
@@ -35,4 +39,4 @@ ENV PORT=3000
 EXPOSE 3000
 
 # 啟動應用程式
-CMD ["node", "server.js"] 
+CMD ["node", "server.js"]
