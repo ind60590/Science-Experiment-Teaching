@@ -473,7 +473,7 @@ app.post('/api/export-pdf', (req, res) => {
         if (fs.existsSync(fontPath)) {
             doc.font(fontPath);
         } else {
-            console.warn('⚠️  字型檔案不存在，使用預設字型');
+            console.warn('⚠️字型檔案不存在，使用預設字型');
             // 不要因為字型問題就停止生成 PDF
         }
 

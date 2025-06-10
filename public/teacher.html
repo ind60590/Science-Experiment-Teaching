@@ -64,7 +64,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="experimentMaterials" class="form-label">實驗材料</label>
-                                <input type="text" class="form-control" id="experimentMaterials" required>
+                                <textarea class="form-control" id="experimentMaterials" rows="3" required placeholder="請輸入實驗材料，每行一項"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">實驗步驟</label>
@@ -139,63 +139,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->
     <script src="/js/teacher.js"></script>
-    <script>
-    // 顯示實驗列表
-    function displayExperiments(experiments) {
-        const list = document.getElementById('experimentList');
-        list.innerHTML = '';
-        experiments.forEach((experiment, index) => {
-            const item = document.createElement('div');
-            item.className = 'list-group-item d-flex justify-content-between align-items-center';
-            item.innerHTML = `
-                <div>
-                    <span class="badge bg-primary me-2">${index + 1}</span>
-                    ${experiment.name}
-                </div>
-                <div>
-                    <button class="btn btn-sm btn-primary me-2" onclick="editExperiment('${experiment.id}')">
-                        <i class="ri-edit-line"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteExperiment('${experiment.id}')">
-                        <i class="ri-delete-bin-line"></i>
-                    </button>
-                </div>
-            `;
-            list.appendChild(item);
-        });
-    }
-
-    // 處理影片上傳
-    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        const fileInput = document.getElementById('videoFile');
-        formData.append('video', fileInput.files[0]);
-
-        try {
-            const response = await fetch('/api/upload-video', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
-            
-            if (data.success) {
-                // 顯示 AI 生成內容
-                const aiContent = document.getElementById('aiContent');
-                const aiGeneratedContent = document.getElementById('aiGeneratedContent');
-                aiContent.textContent = JSON.stringify(data.experiment, null, 2);
-                aiGeneratedContent.style.display = 'block';
-                
-                // 重新載入實驗列表
-                loadExperiments();
-            } else {
-                alert('上傳失敗：' + data.message);
-            }
-        } catch (error) {
-            console.error('上傳失敗:', error);
-            alert('上傳失敗，請稍後再試');
-        }
-    });
-    </script>
 </body>
 </html>
